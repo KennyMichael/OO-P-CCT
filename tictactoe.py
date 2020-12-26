@@ -65,3 +65,19 @@ def compMove():
         if rowComplete(boardSlice, 'X'):
             move = i
             return move
+
+    if 5 in availableMoves:
+        move = 5
+        return move
+
+    for i in availableMoves:
+        if i in [1, 3, 7, 9]:
+            move = i
+            return move
+
+    for i in availableMoves:
+        if i in [2, 4, 6, 8]:
+            move = i
+            return move
+
+    return move
