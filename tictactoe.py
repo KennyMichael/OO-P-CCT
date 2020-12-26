@@ -1,27 +1,37 @@
-# # board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-# board = [' ', 'O', ' ', ' ', 'X', 'X', 'X', ' ', ' ', ' ', ]
+def intro():
+    print('Welcome to tic-tac-toe!')
+    print('Here is the layout of the board:')
+    print(' 1 ┃ 2 ┃ 3')
+    print('━━━━━━━━━━━')
+    print(' 4 ┃ 5 ┃ 6')
+    print('━━━━━━━━━━━')
+    print(' 7 ┃ 8 ┃ 9\n')
 
 
-# def printBoard(board):
-#     print(' ' + board[1] + ' ┃ ' + board[2] + ' ┃ ' + board[3])
-#     print('━━━━━━━━━━━')
-#     print(' ' + board[4] + ' ┃ ' + board[5] + ' ┃ ' + board[6])
-#     print('━━━━━━━━━━━')
-#     print(' ' + board[7] + ' ┃ ' + board[8] + ' ┃ ' + board[9])
+def printBoard(board):
+    print(' ' + board[1] + ' ┃ ' + board[2] + ' ┃ ' + board[3])
+    print('━━━━━━━━━━━')
+    print(' ' + board[4] + ' ┃ ' + board[5] + ' ┃ ' + board[6])
+    print('━━━━━━━━━━━')
+    print(' ' + board[7] + ' ┃ ' + board[8] + ' ┃ ' + board[9])
 
-
-# def isWinner(bo, le):
-#     if ((bo[7] == le and bo[8] == le and bo[9] == le) or (bo[4] == le and bo[5] == le and bo[6] == le) or (bo[1] == le and bo[2] == le and bo[3] == le) or (bo[7] == le and bo[4] == le and bo[1] == le) or (bo[8] == le and bo[5] == le and bo[2] == le) or (bo[9] == le and bo[6] == le and bo[3] == le) or (bo[7] == le and bo[5] == le and bo[3] == le) or (bo[9] == le and bo[5] == le and bo[1] == le)):
-#         print('Row completed, winner')
-#     else:
-#         print('No completed row')
-
-
-# printBoard(board)
-# isWinner(board, 'X')
 
 def placeMove(letter, place):
     board[place] = letter
+
+
+def checkFree(place):
+    if board[place] == ' ':
+        return True
+    else:
+        return False
+
+
+def isBoardFull(board):
+    if board.count(' ') > 1:
+        return False
+    else:
+        return True
 
 
 def playerMove():
@@ -30,5 +40,28 @@ def playerMove():
         move = input('Please enter a move from 1 - 9: ')
         move = int(move)
         if move in range(1, 10):
-            loop = False    # loop to prompt again if the user input is not in desired range
+            loop = False
             placeMove('X', move)
+
+
+def compMove():
+    availableMoves = []
+    for i in range(1, 10):
+        if board[i] == ' ':
+            availableMoves.append(i)
+
+    move = 0
+
+    for i in availableMoves:
+        boardSlice = board[:]
+        boardSlice[i] = 'O'
+        if rowComplete(boardSlice, 'O'):
+            move = i
+            return move
+
+    for i in availableMoves:
+        boardSlice = board[:]
+        boardSlice[i] = 'X'
+        if rowComplete(boardSlice, 'X'):
+            move = i
+            return move
