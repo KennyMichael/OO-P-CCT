@@ -1,3 +1,6 @@
+board = [' '] * 10
+
+
 def intro():
     print('Welcome to tic-tac-toe!')
     print('Here is the layout of the board:')
@@ -34,14 +37,31 @@ def isBoardFull(board):
         return True
 
 
+def rowComplete(board, let):
+    if ((board[7] == let and board[8] == let and board[9] == let) or (board[4] == let and board[5] == let and board[6] == let) or (board[1] == let and board[2] == let and board[3] == let) or (board[7] == let and board[4] == let and board[1] == let) or (
+            board[8] == let and board[5] == let and board[2] == let) or (board[9] == let and board[6] == let and board[3] == let) or (board[7] == let and board[5] == let and board[3] == let) or (board[9] == let and board[5] == let and board[1] == let)):
+        return True
+
+    else:
+        return False
+
+
 def playerMove():
     loop = True
     while loop:
         move = input('Please enter a move from 1 - 9: ')
-        move = int(move)
-        if move in range(1, 10):
-            loop = False
-            placeMove('X', move)
+        try:
+            move = int(move)
+            if move in range(1, 10):
+                if checkFree(move):
+                    loop = False
+                    placeMove('X', move)
+                else:
+                    print('This space is taken')
+            else:
+                print('Please enter a number from 1 - 9: ')
+        except:
+            print('Please enter an integer')
 
 
 def compMove():
@@ -81,3 +101,34 @@ def compMove():
             return move
 
     return move
+
+
+def main():
+    printBoard(board)
+
+    while not (isBoardFull(board)):
+        if not (rowComplete(board, 'O')):
+            playerMove()
+            printBoard(board)
+        else:
+            print('You loose, AI is undeniable')
+            break
+
+        if not (rowComplete(board, 'X')):
+            move = compMove()
+            if move == 0:
+                print('Draw')
+            else:
+                placeMove('O', move)
+                print('AI played position ', move)
+                printBoard(board)
+        else:
+            print('You win!')
+            break
+
+    if isBoardFull(board):
+        print('Draw')
+
+
+intro()
+main()
